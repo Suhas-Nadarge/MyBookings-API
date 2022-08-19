@@ -22,8 +22,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// var server = app.listen(3000);
 
-const io = require('socket.io')(); 
+const io = require('socket.io')({
+    cors: {
+      origin: '*',
+    }
+  }); 
+
 // var server = app.listen(3000);
 
 // const io = require('socket.io')(server, {

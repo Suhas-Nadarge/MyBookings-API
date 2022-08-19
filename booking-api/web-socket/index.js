@@ -1,14 +1,16 @@
 
+  //   module.exports = (io) => {
+  //   io.on('connection', socket => {
 
-//     io.on('connection', socket => {
-
-//         console.log('Connection initiated'); 
-//         io.emit('my broadcast', `server: hjhj`);
-// 		socket.on('if connection disconnect', () => console.log('disconnected')); 
+  //       console.log('Connection initiated'); 
+  //       io.emit('my broadcast', `server: hjhj`);
+	// 	socket.on('if connection disconnect', () => console.log('disconnected')); 
 		
-// 	})
-// }
+	// })
+
+
 module.exports = (io) => {
+  
 io.on('connection', (socket) => {
   
     console.log('a user connected');
@@ -23,6 +25,5 @@ io.on('connection', (socket) => {
 
     });
   });
-
+    }
  
-}
