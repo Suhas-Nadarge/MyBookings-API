@@ -22,7 +22,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
       console.log('user disconnected');
      usersList = [];
-
+     
 
     });
     
@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
       msgList.push(obj.id)
       console.log('----)'+ usersList,allTickets);
 
-      io.emit('my broadcast', usersList,allTickets);
+      io.emit('my broadcast', allTickets);
     });
   });
     }
