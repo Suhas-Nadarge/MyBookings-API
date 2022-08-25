@@ -7,21 +7,22 @@ const User = require("../app/model/models");
 
 /* GET users listing. */
 router.post('/login', function(req, res) {
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
   console.log(req)
   User.findOne({email:req['body']['email']},function(err, data) {
       if(err){
-          console.log(err);
+          // console.log(err);
       }
       else{
           res.send(data);
           console.log('--'+data)
           
         if(req['body']['password']=== data['password']){
-          res.sendStatus(200);
+          // res.sendStatus(200);
           console.log('Success')
         } else {
-          res.sendStatus(401);
-          console.log('Fail')
+          // res.sendStatus(401);
+          console.log(req['body']['password'],data['password'])
 
         }
       }

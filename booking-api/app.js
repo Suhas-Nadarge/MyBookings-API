@@ -3,7 +3,9 @@ var createError = require('http-errors');
 
 var express = require('express');
 var app = express();
-
+const helmet = require("helmet");
+const cspDefaults = helmet.contentSecurityPolicy.getDefaultDirectives();
+delete cspDefaults['upgrade-insecure-requests'];
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -12,7 +14,13 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 const db = require("./app/model");
 var cors = require('cors');
+app.use(cors({
+  origin: 'http://localhost:4200'
+}));
 
+app.use(helmet({
+  contentSecurityPolicy: { directives: cspDefaults }
+}));
 db.mongoose = mongoose;
 db.url = dbConfig.url;
 // db.user = require("./app/model/user.model.js")(mongoose);
@@ -54,10 +62,7 @@ const io = require('socket.io')({
     }
   }); 
 
-  app.use(cors({
-    origin: 'https://localhost:4200/'
-  }));
-
+  
 require('./web-socket/index')(io)            
 
 
