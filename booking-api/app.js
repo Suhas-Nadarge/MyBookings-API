@@ -7,6 +7,30 @@ var app = express();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const dbConfig = require("./app/config/db.config");
+const mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+const db = require("./app/model");
+var cors = require('cors');
+
+db.mongoose = mongoose;
+db.url = dbConfig.url;
+// db.user = require("./app/model/user.model.js")(mongoose);
+module.exports = db;
+const bodyParser = require('body-parser')
+
+db.mongoose
+  .connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(err => {
+    console.log("Cannot connect to the database!", err);
+    process.exit();
+  });
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -30,13 +54,10 @@ const io = require('socket.io')({
     }
   }); 
 
-// var server = app.listen(3000);
+  app.use(cors({
+    origin: 'https://localhost:4200/'
+  }));
 
-// const io = require('socket.io')(server, {
-//   cors: {
-//     origin: '*',
-//   }
-// });
 require('./web-socket/index')(io)            
 
 
