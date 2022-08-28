@@ -11,20 +11,31 @@ router.post('/login', function(req, res) {
   console.log(req)
   User.findOne({email:req['body']['email']},function(err, data) {
       if(err){
-          // console.log(err);
+        res.send({status:'fail'})
       }
       else{
-          res.send(data);
+          res.send({status:'success',name:data.name})
           console.log('--'+data)
           
         if(req['body']['password']=== data['password']){
-          // res.sendStatus(200);
           console.log('Success')
         } else {
-          // res.sendStatus(401);
           console.log(req['body']['password'],data['password'])
-
         }
+      }
+  });  
+});
+
+router.post('/bookings', function(req, res) {
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  console.log(req)
+  User.findById({email:req['body']['email']},function(err, data) {
+      if(err){
+        res.send({status:'fail'})
+      }
+      else{
+          res.send(data)
+          console.log('--'+data)
       }
   });  
 });
@@ -47,10 +58,11 @@ let newUser = new User({
   password: password
  })
  newUser.save().then((user) => {
-  res.send(user)
- }).catch((err) => {
+  // res.send(user)
+  res.send({status:'success'})
+
+ }).catch((error) => {
   console.log(error)
  })
-  res.send('user created');
 });
 module.exports = router;
